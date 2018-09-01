@@ -5,7 +5,7 @@ import { VirtualList, VirtualizationDelegate } from './virtual-list.js';
 
 export class VirtualListElement extends LitElement {
   itemwidth: number = 100;
-  buffer: number = 4;
+  buffer: number = 2;
   private vl?: VirtualList;
   private _delegate?: VirtualizationDelegate;
 

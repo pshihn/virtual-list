@@ -14,6 +14,7 @@ export declare class VirtualList {
     private _delegate?;
     private scrollHandler;
     private resizeHandler?;
+    private currentRenderRange;
     constructor(container: HTMLElement, scrollElement?: HTMLElement);
     delegate: VirtualizationDelegate;
     private readonly scroller;

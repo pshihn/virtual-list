@@ -24,6 +24,7 @@ export class VirtualList {
         this.count = 0;
         this.cells = [];
         this.scrollHandler = () => this.position();
+        this.currentRenderRange = [-1, -1];
         this.container = container;
         this.scrollElement = scrollElement;
     }
@@ -55,11 +56,15 @@ export class VirtualList {
         window.addEventListener('resize', this.resizeHandler);
     }
     position() {
-        if (!this.delegate) {
+        if (!this._delegate) {
             return;
         }
         const ranges = this.computeRanges();
         const renderRange = ranges[1];
+        if (renderRange[0] === this.currentRenderRange[0] && renderRange[1] === this.currentRenderRange[1]) {
+            return;
+        }
+        this.currentRenderRange = renderRange;
         const doNotTouchCells = new Map();
         const spareCells = this.cells.filter((c) => {
             if (c.index < renderRange[0] || c.index > renderRange[1]) {
@@ -78,7 +83,7 @@ export class VirtualList {
             const i = indicesToRender.shift();
             const cell = spareCells.shift();
             cell.index = i;
-            this.delegate.updateElement(cell.node, i);
+            this._delegate.updateElement(cell.node, i);
             this.positionCell(cell.node, i);
             doNotTouchCells.set(i, cell);
         }
@@ -88,10 +93,10 @@ export class VirtualList {
         }
         while (indicesToRender.length) {
             const i = indicesToRender.shift();
-            const node = this.delegate.createElement();
-            node.style.position = 'aboslute';
+            const node = this._delegate.createElement();
+            node.style.position = 'absolute';
             this.container.appendChild(node);
-            this.delegate.updateElement(node, i);
+            this._delegate.updateElement(node, i);
             this.positionCell(node, i);
             doNotTouchCells.set(i, { index: i, node });
         }
@@ -101,8 +106,9 @@ export class VirtualList {
         cell.style.transform = `translate(${Math.round(index * this.itemwidth)}px, 0)`;
     }
     computeRanges() {
-        const min = Math.max(0, Math.min(this.count - 1, Math.floor((this.scroller.scrollLeft / (this.scroller.scrollWidth || 1)) * this.itemwidth)));
-        const max = Math.max(0, Math.min(this.count - 1, Math.floor(((this.scroller.scrollLeft + this.scroller.getBoundingClientRect().width) / (this.scroller.scrollWidth || 1)) * this.itemwidth)));
+        const swidth = Math.max(this.scroller.scrollWidth, this.count * this.itemwidth) || 1;
+        const min = Math.max(0, Math.min(this.count - 1, Math.floor((this.scroller.scrollLeft / (swidth || 1)) * this.count)));
+        const max = Math.max(0, Math.min(this.count - 1, Math.floor(((this.scroller.scrollLeft + this.scroller.getBoundingClientRect().width) / (swidth || 1)) * this.count)));
         const pre = Math.max(0, min - Math.floor(this.buffer / 2));
         const post = Math.min(this.count - 1, max + this.buffer - (min - pre));
         return [[min, max], [pre, post]];

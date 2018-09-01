@@ -4,7 +4,7 @@ export class VirtualListElement extends LitElement {
     constructor() {
         super(...arguments);
         this.itemwidth = 100;
-        this.buffer = 4;
+        this.buffer = 2;
     }
     static get properties() {
         return {

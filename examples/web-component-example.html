@@ -1,0 +1,49 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>Virtual List WebComponent Example</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      color: #292929;
+      font-size: 16px;
+    }
+
+    #list {
+      height: 130px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <virtual-list id="list" itemwidth="117"></virtual-list>
+  <script type="module">
+    import { VirtualListElement } from '../bin/virtual-list-element.js';
+    import { DemoCard } from './card.js';
+
+    const list = document.getElementById('list');
+    setTimeout(() => {
+      list.delegate = {
+        length: 100000,
+
+        createElement() {
+          return new DemoCard();
+        },
+
+        updateElement(node, index) {
+          node.index = index;
+        }
+      };
+    }, 1000);
+
+  </script>
+</body>
+
+</html>
