@@ -24,6 +24,12 @@
 
 <body>
   <virtual-list id="list" itemwidth="117"></virtual-list>
+
+  <div style="padding: 16px;">
+    <input id="index" type="number" value="0">
+    <button id="scrollToButton">Scroll to index</button>
+  </div>
+
   <script type="module">
     import { VirtualListElement } from '../bin/virtual-list-element.js';
     import { DemoCard } from './card.js';
@@ -42,6 +48,12 @@
         }
       };
     }, 1000);
+
+    // scroll to index handler
+    document.getElementById('scrollToButton').addEventListener('click', () => {
+      const index = +document.getElementById('index').value || 0;
+      list.scrollToIndex(index);
+    });
 
   </script>
 </body>

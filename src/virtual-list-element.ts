@@ -59,6 +59,12 @@ export class VirtualListElement extends LitElement {
       this.vl.position();
     }
   }
+
+  scrollToIndex(index: number) {
+    if (this.vl) {
+      this.vl.scrollToIndex(index);
+    }
+  }
 }
 
 customElements.define('virtual-list', VirtualListElement);
