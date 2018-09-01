@@ -139,4 +139,11 @@ export class VirtualList {
     const post = Math.min(this.count - 1, max + this.buffer - (min - pre));
     return [[min, max], [pre, post]];
   }
+
+  scrollToIndex(index: number) {
+    if (this._delegate && Number.isFinite(index)) {
+      index = Math.min(this._delegate.length, Math.max(0, index));
+      this.scroller.scrollLeft = index * this.itemwidth;
+    }
+  }
 }

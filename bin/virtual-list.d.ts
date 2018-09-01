@@ -23,4 +23,5 @@ export declare class VirtualList {
     position(): void;
     private positionCell;
     private computeRanges;
+    scrollToIndex(index: number): void;
 }
