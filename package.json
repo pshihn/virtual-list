@@ -2,7 +2,9 @@
   "name": "virtual-list",
   "version": "0.1.0",
   "description": "Yet another virtual list component",
-  "main": "index.js",
+  "main": "bin/virtual-list.js",
+  "module": "bin/virtual-list.js",
+  "types": "bin/virtual-list.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
