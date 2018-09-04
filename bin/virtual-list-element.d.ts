@@ -15,4 +15,5 @@ export declare class VirtualListElement extends LitElement {
     delegate: VirtualizationDelegate;
     refresh(): void;
     scrollToIndex(index: number): void;
+    readonly container: HTMLElement;
 }
