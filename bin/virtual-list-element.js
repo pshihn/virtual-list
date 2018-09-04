@@ -57,5 +57,8 @@ export class VirtualListElement extends LitElement {
             this.vl.scrollToIndex(index);
         }
     }
+    get container() {
+        return this.shadowRoot.querySelector('#container');
+    }
 }
 customElements.define('virtual-list', VirtualListElement);
