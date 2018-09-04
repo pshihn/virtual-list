@@ -6,13 +6,15 @@ import { VirtualList, VirtualizationDelegate } from './virtual-list.js';
 export class VirtualListElement extends LitElement {
   itemwidth: number = 100;
   buffer: number = 2;
+  endpadding: boolean = false;
   private vl?: VirtualList;
   private _delegate?: VirtualizationDelegate;
 
   static get properties() {
     return {
       itemwidth: Number,
-      buffer: Number
+      buffer: Number,
+      endpadding: Boolean
     };
   }
 
@@ -42,6 +44,7 @@ export class VirtualListElement extends LitElement {
     }
     this.vl.itemwidth = this.itemwidth;
     this.vl.buffer = this.buffer;
+    this.vl.endpadding = this.endpadding;
     if (this._delegate) {
       this.vl.delegate = this._delegate;
     }

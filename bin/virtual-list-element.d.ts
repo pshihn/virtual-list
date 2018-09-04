@@ -4,11 +4,13 @@ import { VirtualizationDelegate } from './virtual-list.js';
 export declare class VirtualListElement extends LitElement {
     itemwidth: number;
     buffer: number;
+    endpadding: boolean;
     private vl?;
     private _delegate?;
     static readonly properties: {
         itemwidth: NumberConstructor;
         buffer: NumberConstructor;
+        endpadding: BooleanConstructor;
     };
     _render(): TemplateResult;
     _didRender(): void;

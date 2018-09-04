@@ -7,6 +7,7 @@ export declare class VirtualList {
     itemwidth: number;
     buffer: number;
     resizeDebounceInterval: number;
+    endpadding: boolean;
     private count;
     private scrollElement?;
     private container;

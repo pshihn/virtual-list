@@ -34,6 +34,7 @@ export class VirtualList {
   itemwidth: number = 100;
   buffer: number = 4;
   resizeDebounceInterval = 250;
+  endpadding = false;
   private count = 0;
   private scrollElement?: HTMLElement;
   private container: HTMLElement;
@@ -92,6 +93,11 @@ export class VirtualList {
         return;
       }
     }
+    if (this.endpadding) {
+      const itemsPerView = Math.max(1, Math.ceil(this.scroller.getBoundingClientRect().width / this.itemwidth));
+      const totalWidth = (this.count + itemsPerView - 1) * this.itemwidth;
+      this.container.style.minWidth = `${totalWidth}px`;
+    }
     this.renderRanegDirty = false;
     this.currentRenderRange = renderRange;
     const doNotTouchCells = new Map<number, ScrollCell>();
@@ -137,7 +143,7 @@ export class VirtualList {
   }
 
   private computeRanges(): Range[] {
-    const swidth = Math.max(this.scroller.scrollWidth, this.count * this.itemwidth) || 1;
+    const swidth = (this.count * this.itemwidth) || 1;
     const min = Math.max(0, Math.min(this.count - 1, Math.floor((this.scroller.scrollLeft / (swidth || 1)) * this.count)));
     const max = Math.max(0, Math.min(this.count - 1, Math.floor(((this.scroller.scrollLeft + this.scroller.getBoundingClientRect().width) / (swidth || 1)) * this.count)));
     const pre = Math.max(0, min - Math.floor(this.buffer / 2));

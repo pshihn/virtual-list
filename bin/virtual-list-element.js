@@ -5,11 +5,13 @@ export class VirtualListElement extends LitElement {
         super(...arguments);
         this.itemwidth = 100;
         this.buffer = 2;
+        this.endpadding = false;
     }
     static get properties() {
         return {
             itemwidth: Number,
-            buffer: Number
+            buffer: Number,
+            endpadding: Boolean
         };
     }
     _render() {
@@ -37,6 +39,7 @@ export class VirtualListElement extends LitElement {
         }
         this.vl.itemwidth = this.itemwidth;
         this.vl.buffer = this.buffer;
+        this.vl.endpadding = this.endpadding;
         if (this._delegate) {
             this.vl.delegate = this._delegate;
         }
