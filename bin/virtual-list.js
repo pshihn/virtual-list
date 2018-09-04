@@ -25,6 +25,7 @@ export class VirtualList {
         this.cells = [];
         this.scrollHandler = () => this.position();
         this.currentRenderRange = [-1, -1];
+        this.renderRanegDirty = false;
         this.container = container;
         this.scrollElement = scrollElement;
     }
@@ -50,6 +51,7 @@ export class VirtualList {
         this.count = this._delegate ? this._delegate.length : 0;
         const totalWidth = this.count * this.itemwidth;
         this.container.style.minWidth = `${totalWidth}px`;
+        this.renderRanegDirty = true;
         this.position();
         this.scroller.addEventListener('scroll', this.scrollHandler);
         this.resizeHandler = debounce(this.position.bind(this), this.resizeDebounceInterval, false, this);
@@ -61,9 +63,12 @@ export class VirtualList {
         }
         const ranges = this.computeRanges();
         const renderRange = ranges[1];
-        if (renderRange[0] === this.currentRenderRange[0] && renderRange[1] === this.currentRenderRange[1]) {
-            return;
+        if (!this.renderRanegDirty) {
+            if (renderRange[0] === this.currentRenderRange[0] && renderRange[1] === this.currentRenderRange[1]) {
+                return;
+            }
         }
+        this.renderRanegDirty = false;
         this.currentRenderRange = renderRange;
         const doNotTouchCells = new Map();
         const spareCells = this.cells.filter((c) => {
